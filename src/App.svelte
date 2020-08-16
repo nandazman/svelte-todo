@@ -17,19 +17,21 @@
 </svelte:head>
 <script>
   import Todos from './Todos.svelte';
+  let totalTasks;
+  $: tasks = totalTasks;
 </script>
 
 <main>
   <header>
-  	<p class="title">Today Lists!</p>
-    <p class="remaining-task">0 Task</p>
+  	<p class="title">Todo Lists!</p>
+    <p class="remaining-task">{tasks} Tasks</p>
   </header>
-  <Todos />
+  <Todos bind:totalTasks={tasks} />
 </main>
 
 <style lang="scss" type="text/scss">
 	main {
-		padding: 1em;
+		padding: 5rem;
     width: 100%;
     max-width:1180px;
 	}
@@ -38,13 +40,14 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    flex-wrap: wrap;
     .title {
       position: relative;
       letter-spacing: 0.5rem;
       font-weight: bold;
       font-size: 2.5rem;
       &:before {
-        content: 'Today Lists';
+        content: 'Todo Lists!';
         position: absolute;
         left: -5rem;
         width: max-content;
@@ -53,6 +56,26 @@
         font-size: 7rem;
         top: -1.25rem;
         font-weight: normal;
+      }
+    }
+    .remaining-task {
+      margin-top: .5rem;
+      color: #868686;
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    main {
+      padding: 1rem;
+    }
+    header {
+      .title {
+        letter-spacing: 0.2rem;
+        &:before {
+          font-size: 3rem;
+          left: -1rem;
+          top: .25rem;
+        }
       }
     }
   }
