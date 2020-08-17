@@ -17,8 +17,12 @@
 </svelte:head>
 <script>
   import Todos from './Todos.svelte';
+  import NewTodos from './NewTodos.svelte';
   let totalTasks;
+  let newTodo = {};
+  let listTodo;
   $: tasks = totalTasks;
+
 </script>
 
 <main>
@@ -26,7 +30,8 @@
   	<p class="title">Todo Lists!</p>
     <p class="remaining-task">{tasks} Tasks</p>
   </header>
-  <Todos bind:totalTasks={tasks} />
+  <NewTodos on:addTodo={({ detail }) => listTodo.addTodo(detail)} />
+  <Todos bind:this={listTodo} bind:totalTasks={tasks} />
 </main>
 
 <style lang="scss" type="text/scss">

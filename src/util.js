@@ -12,7 +12,11 @@ export default {
   },
   getInitialExpDateWithAdditionalHours(hour = 0) {
     const date = new Date();
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours() + hour}:${date.getMinutes()}`;
+    if (date.getHours() + hour > 24) {
+      const hours = date.getHours() + hour > 24 ? (date.getHours() + hour - 24) : (date.getHours() + hour);
+      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() + 1} ${hour}:${date.getMinutes()}`;
+    }
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${hour}:${date.getMinutes()}`;
   }
 }
 

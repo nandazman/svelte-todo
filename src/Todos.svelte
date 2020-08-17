@@ -1,19 +1,15 @@
 <script>
-  import { onMount } from 'svelte';
   import util from './util.js';
+  let todos = [];
 
   export let totalTasks = 0;
-  const total = 20;
-  const middle = Math.floor(total / 2);
-  let todos = [{
-    description: 'cook for dinner',
-    priority: 'low',
-    expired: util.getInitialExpDateWithAdditionalHours(5)
-  }, {
-    description: 'play dota',
-    priority: 'high',
-    expired: util.getInitialExpDateWithAdditionalHours(8)
-  }];
+  export const addTodo = (data) => {
+    todos.push(data);
+    todos.sort((a,b) => new Date(a.expired) - new Date(b.expired));
+    todos = todos;
+    totalTasks = todos.length;
+  }
+
   totalTasks = todos.length;
 
   const deleteTodo = (index) => {
@@ -33,7 +29,7 @@
         </div>
         <p class="todos-description">
           <span class="priority {todo.priority}">{todo.priority}</span>
-          <span class="title">{todo.description}</span>
+          <span class="title">{todo.title}</span>
         </p>
         <div class="duration">
           <div class="time">
@@ -49,7 +45,7 @@
   </section>
 {:else}
   <div class="no-todo">
-    There is nothing todo.
+    There is nothing todo. Let's add some!
   </div>
 {/if}
 
