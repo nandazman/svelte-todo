@@ -5,41 +5,59 @@
   export let totalTasks = 0;
   const total = 20;
   const middle = Math.floor(total / 2);
-  const todos = [{
+  let todos = [{
     description: 'cook for dinner',
     priority: 'low',
-    expired: '08-16-2020 16:50'
+    expired: util.getInitialExpDateWithAdditionalHours(5)
   }, {
     description: 'play dota',
     priority: 'high',
-    expired: '08-16-2020 19:50'
+    expired: util.getInitialExpDateWithAdditionalHours(8)
   }];
   totalTasks = todos.length;
+
+  const deleteTodo = (index) => {
+    todos.splice(index, 1)
+    todos = todos;
+    totalTasks = todos.length;
+  }
 </script>
 
-<section class="todos-container">
-{#each todos as todo, i}
-    <div class="todo-lists">
-      <div class="checkbox-container">
-        <input class="checkbox" type="checkbox" id="todo-{i}" />
-        <label for="todo-{i}"></label>
-      </div>
-      <p class="todos-description">
-        <span class="priority {todo.priority}">{todo.priority}</span>
-        <span class="title">{todo.description}</span>
-      </p>
-      <div class="duration">
-        <div class="time">
+{#if todos.length}
+  <section class="todos-container">
+  {#each todos as todo, i}
+      <div class="todo-lists {todo.completed ? 'complete' : ''}">
+        <div class="checkbox-container">
+          <input class="checkbox" bind:checked={todo.completed} type="checkbox" id="todo-{i}" />
+          <label for="todo-{i}"></label>
         </div>
-        <div class="text-duration">
-          Due in {util.getDurationFromNow(todo.expired)}
+        <p class="todos-description">
+          <span class="priority {todo.priority}">{todo.priority}</span>
+          <span class="title">{todo.description}</span>
+        </p>
+        <div class="duration">
+          <div class="time">
+          </div>
+          <div class="text-duration">
+            Due in {util.getDurationFromNow(todo.expired)}
+          </div>
+        </div>
+        <div class="action" title="delete todo" on:click={ () => deleteTodo(i) }>
         </div>
       </div>
-    </div>
-{/each}
-</section>
+  {/each}
+  </section>
+{:else}
+  <div class="no-todo">
+    There is nothing todo.
+  </div>
+{/if}
 
 <style lang="scss" type="text/scss">
+  .no-todo {
+    margin-top: 3rem;
+    text-align: center;
+  }
   .todos-container {
     box-shadow: 0 2px 25px 0 rgba(0,0,0,0.2);
     background: white;
@@ -48,6 +66,10 @@
       padding: 2rem 1rem;
       display: flex;
       justify-content: space-between;
+      transition: background .25s;
+      &.complete {
+        background: #09ad7e;
+      }
       &:not(:last-child) {
         border-bottom: 2px solid #dedede;
       }
@@ -154,6 +176,28 @@
             width: 1px;
             border-bottom: 9px solid black;
           }
+        }
+      }
+      .action {
+        width: 24px;
+        height: 24px;
+        position: relative;
+        cursor: pointer;
+        &:before {
+          content: '';
+          position: absolute;
+          border-top: 1px solid black;
+          width: 24px;
+          transform: rotate(45deg);
+          top: 10px;
+        }
+        &:after {
+          content: '';
+          position: absolute;
+          border-top: 1px solid black;
+          width: 24px;
+          transform: rotate(135deg);
+          top: 10px;
         }
       }
     } 

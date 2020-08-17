@@ -5,10 +5,14 @@ export default {
     const diffInMs = substract(nextDate, now);
     const diffInMinutes = getMinutesDuration(diffInMs);
     if (diffInMinutes < 60) {
-      return `${floor(diffInMinutes)} min`;
+      return `${ceil(diffInMinutes)} min`;
     }
     const diffInHours = getHoursFromMinute(diffInMinutes);
-    return `${floor(diffInHours)} hours`;
+    return `${ceil(diffInHours)} hours`;
+  },
+  getInitialExpDateWithAdditionalHours(hour = 0) {
+    const date = new Date();
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours() + hour}:${date.getMinutes()}`;
   }
 }
 
@@ -20,8 +24,8 @@ const getMinutesDuration = (duration) => {
   return duration / (1000 * 60)
 }
 
-const floor = (number) => {
-  return Math.floor(number);
+const ceil = (number) => {
+  return Math.ceil(number);
 }
 
 const getHoursFromMinute = (minutes) => {
