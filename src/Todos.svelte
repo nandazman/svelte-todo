@@ -63,6 +63,7 @@
       display: flex;
       justify-content: space-between;
       transition: background .25s;
+      position: relative;
       &.complete {
         background: #09ad7e;
       }
@@ -204,6 +205,11 @@
       .todo-lists {
         flex-direction: column;
         padding: 1rem;
+        .action {
+          position: absolute;
+          top: 5px;
+          right: 5px;
+        }
         .todos-description {
           margin: 1rem 0;
           margin-left: 0;
