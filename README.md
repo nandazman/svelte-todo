@@ -1,5 +1,7 @@
 # Todolist app using svelte
 
+This project can be accessed in [here](https://nandazman.github.io/svelte-todo/).
+
 This is a responsive todolist project using svelte and scss.
 
 ## Get started
